@@ -21,26 +21,26 @@
     <div id="aridome">
         <iframe
             src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
-            width="50%" height="1000" style="float: left;" scrolling="yes" id="iframe1"></iframe>
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
+
 
         <iframe
             src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
-            width="50%" height="1000" style="float: left;" scrolling="yes" id="iframe2"></iframe>
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
     </div>
     <script>
         let iframes = document.querySelectorAll("iframe");
 
-        function scrollShare(event) {
-            iframes.forEach(iframe => {
-                if (event.target !== iframe) {
-                    iframe.contentWindow.scrollTo(0, event.target.scrollTop);
-                }
-            });
-        }
+        function scrollShare(elm1, elm2) {
+            let top = elm1.scrollTop;
+            elm2.scrollTop = top;
 
-        iframes.forEach(iframe => {
-            iframe.contentWindow.onscroll = scrollShare;
-        });
+            console.log(elm1)
+            console.log(elm2)
+            console.log(top)
+
+        }
+        iframes[0].onscroll = () => scrollShare(iframes[0], iframes[1]);
     </script>
 </body>
 
