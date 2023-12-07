@@ -5,20 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>複数ウィンドウの例</title>
-    <script>
-        function openWindows() {
-            // ウィンドウ1
-            window.open('https://www.example.com', 'window1', 'width=600,height=400');
-
-            // ウィンドウ2
-            window.open('https://www.example2.com', 'window2', 'width=600,height=400');
-        }
-    </script>
 </head>
 
 <body>
 
-    <button onclick="openWindows()">複数のウィンドウを開く</button>
+    <iframe src="https://www.example.com" width="50%" height="400" style="float: left;"></iframe>
+    <iframe src="https://www.example2.com" width="50%" height="400" style="float: left;"></iframe>
 
 </body>
 
