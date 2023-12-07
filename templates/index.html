@@ -23,6 +23,16 @@
             src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
             width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
     </div>
+    <script>
+        let iframes = document.querySelectorAll("iframe");
+
+        function scrollShare(elm1, elm2) {
+            let top = elm1.scrollTop;
+            elm2.scrollTop = top;
+
+        }
+        iframes[0].onclick = scrollShare(iframes[0], iframes[1]);
+    </script>
 </body>
 
 </html>
