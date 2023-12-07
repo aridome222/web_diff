@@ -1,45 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Content Loading Example</title>
+    <title>複数ウィンドウの例</title>
+    <style>
+        #aridome {
+            display: flex;
+        }
+
+        iframe {
+            height: 6000px;
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="aridome">
+        <iframe
+            src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
 
-    <div id="content1"></div>
-    <div id="content2"></div>
 
+        <iframe
+            src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
+    </div>
     <script>
-        // 非同期関数を定義
-        async function loadContent(url, targetElementId) {
-            try {
-                // 外部コンテンツを取得
-                const response = await fetch(url);
+        let iframes = document.querySelectorAll("iframe");
 
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch: ${url}`);
-                }
+        function scrollShare(elm1, elm2) {
+            let top = elm1.scrollTop;
+            elm2.scrollTop = top;
 
-                // 取得したHTMLコンテンツをテキストとして取得
-                const htmlContent = await response.text();
+            console.log(elm1)
+            console.log(elm2)
+            console.log(top)
 
-                // 対象の要素にHTMLコンテンツを設定
-                document.getElementById(targetElementId).innerHTML = htmlContent;
-            } catch (error) {
-                console.error(error);
-            }
         }
-
-        // ページの読み込み後にコンテンツをロード
-        window.onload = function () {
-            loadContent('https://www.example1.com', 'content1');
-            loadContent('https://www.example2.com', 'content2');
-        };
+        iframes[0].onscroll = () => scrollShare(iframes[0], iframes[1]);
     </script>
-
 </body>
 
 </html>
