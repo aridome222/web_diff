@@ -19,39 +19,28 @@
 
 <body>
     <div id="aridome">
-        <iframe src="{{ proxy_url }}" width="50%" height="1000" style="float: left;" scrolling="yes"
-            id="iframe1"></iframe>
+        <iframe
+            src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
 
-        <iframe src="{{ proxy_url }}" width="50%" height="1000" style="float: left;" scrolling="yes"
-            id="iframe2"></iframe>
+
+        <iframe
+            src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
     </div>
     <script>
         let iframes = document.querySelectorAll("iframe");
 
-        function scrollShare(event) {
-            iframes.forEach(iframe => {
-                if (event.target !== iframe) {
-                    iframe.contentWindow.postMessage({
-                        type: 'scroll',
-                        scrollTop: event.target.scrollTop
-                    }, '*');
-                }
-            });
+        function scrollShare(elm1, elm2) {
+            let top = elm1.scrollTop;
+            elm2.scrollTop = top;
+
+            console.log(elm1)
+            console.log(elm2)
+            console.log(top)
+
         }
-
-        window.addEventListener('message', function (event) {
-            if (event.data.type === 'scroll') {
-                iframes.forEach(iframe => {
-                    if (event.source !== iframe.contentWindow) {
-                        iframe.contentWindow.scrollTo(0, event.data.scrollTop);
-                    }
-                });
-            }
-        });
-
-        iframes.forEach(iframe => {
-            iframe.contentWindow.onscroll = scrollShare;
-        });
+        iframes[0].onscroll = () => scrollShare(iframes[0], iframes[1]);
     </script>
 </body>
 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>複数ウィンドウの例</title>
+    <style>
+        #aridome {
+            display: flex;
+        }
+
+        iframe {
+            height: 1000px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="aridome">
+        <iframe src="{{ proxy_url }}" width="50%" height="1000" style="float: left;" scrolling="yes"
+            id="iframe1"></iframe>
+
+        <iframe src="{{ proxy_url }}" width="50%" height="1000" style="float: left;" scrolling="yes"
+            id="iframe2"></iframe>
+    </div>
+    <script>
+        let iframes = document.querySelectorAll("iframe");
+
+        function scrollShare(event) {
+            iframes.forEach(iframe => {
+                if (event.target !== iframe) {
+                    iframe.contentWindow.postMessage({
+                        type: 'scroll',
+                        scrollTop: event.target.scrollTop
+                    }, '*');
+                }
+            });
+        }
+
+        window.addEventListener('message', function (event) {
+            if (event.data.type === 'scroll') {
+                iframes.forEach(iframe => {
+                    if (event.source !== iframe.contentWindow) {
+                        iframe.contentWindow.scrollTo(0, event.data.scrollTop);
+                    }
+                });
+            }
+        });
+
+        iframes.forEach(iframe => {
+            iframe.contentWindow.onscroll = scrollShare;
+        });
+    </script>
+</body>
+
+</html>
