@@ -4,16 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>動的なページ</title>
+    <title>複数ウィンドウの例</title>
+    <script>
+        function openWindows() {
+            // ウィンドウ1
+            window.open('https://www.example.com', 'window1', 'width=600,height=400');
+
+            // ウィンドウ2
+            window.open('https://www.example2.com', 'window2', 'width=600,height=400');
+        }
+    </script>
 </head>
 
 <body>
-    <h1>動的なページを作成してみたのだ！</h1>
-    <p id="dynamicText">ボタンをクリックしてこのテキストを変更してみるのだ!</p>
-    <button id="changeTextButton" onclick="changeText()">ずんだボタン</button>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <button onclick="openWindows()">複数のウィンドウを開く</button>
+
 </body>
 
 </html>
