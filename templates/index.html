@@ -10,11 +10,25 @@
             display: flex;
         }
 
+        #diffButton {
+            position: fixed;
+            top: 20px;
+            /* 上からの距離 */
+            right: 20px;
+            /* 右からの距離 */
+            padding: 10px;
+            background-color: #007bff;
+            /* ボタンの背景色 */
+            color: #fff;
+            /* テキストの色 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         iframe {
             height: 10000px;
             overflow-y: scroll;
-            margin: 0;
-            padding: 0;
         }
     </style>
 </head>
@@ -29,6 +43,9 @@
         <iframe
             src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
             width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
+    </div>
+    <div id="diffButton">
+        <button>差分検出</button>
     </div>
     <script>
         let iframes = document.querySelectorAll("iframe");
