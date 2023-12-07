@@ -47,19 +47,46 @@
     <div id="diffButton">
         <button>差分検出</button>
     </div>
+
     <script>
-        let iframes = document.querySelectorAll("iframe");
+        // let iframes = document.querySelectorAll("iframe");
 
-        function scrollShare(elm1, elm2) {
-            let top = elm1.scrollTop;
-            elm2.scrollTop = top;
+        // function scrollShare(elm1, elm2) {
+        //     let top = elm1.scrollTop;
+        //     elm2.scrollTop = (0, top);
 
-            console.log(elm1)
-            console.log(elm2)
-            console.log(top)
+        //     console.log(elm1)
+        //     console.log(elm2)
+        //     console.log(top)
 
+        // }
+        // iframes[0].onscroll = () => scrollShare(iframes[0], iframes[1]);
+        // iframes[1].onscroll = () => scrollShare(iframes[1], iframes[0]);
+
+        function sendDiffRequest() {
+            let iframe1URL = document.getElementById("iframe1").src;
+            let iframe2URL = document.getElementById("iframe2").src;
+
+            fetch('http://localhost:5000/diff', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    url1: iframe1URL,
+                    url2: iframe2URL
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Diff image URLs:', data.diff_image_url1, data.diff_image_url2);
+                    // Handle the diff image URLs as needed, for example, display the images
+                    // You can set the src attribute of image tags with data.diff_image_url1 and data.diff_image_url2
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
-        iframes[0].onscroll = () => scrollShare(iframes[0], iframes[1]);
     </script>
 </body>
 
