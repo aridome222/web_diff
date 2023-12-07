@@ -33,10 +33,23 @@
         function scrollShare(event) {
             iframes.forEach(iframe => {
                 if (event.target !== iframe) {
-                    iframe.contentWindow.scrollTo(0, event.target.scrollTop);
+                    iframe.contentWindow.postMessage({
+                        type: 'scroll',
+                        scrollTop: event.target.scrollTop
+                    }, '*');
                 }
             });
         }
+
+        window.addEventListener('message', function (event) {
+            if (event.data.type === 'scroll') {
+                iframes.forEach(iframe => {
+                    if (event.source !== iframe.contentWindow) {
+                        iframe.contentWindow.scrollTo(0, event.data.scrollTop);
+                    }
+                });
+            }
+        });
 
         iframes.forEach(iframe => {
             iframe.contentWindow.onscroll = scrollShare;
