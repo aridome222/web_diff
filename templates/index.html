@@ -19,13 +19,11 @@
 
 <body>
     <div id="aridome">
-        <iframe
-            src="proxy.php?url=https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
-            width="50%" height="1000" style="float: left;" scrolling="yes" id="iframe1"></iframe>
+        <iframe src="{{ proxy_url }}" width="50%" height="1000" style="float: left;" scrolling="yes"
+            id="iframe1"></iframe>
 
-        <iframe
-            src="proxy.php?url=https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
-            width="50%" height="1000" style="float: left;" scrolling="yes" id="iframe2"></iframe>
+        <iframe src="{{ proxy_url }}" width="50%" height="1000" style="float: left;" scrolling="yes"
+            id="iframe2"></iframe>
     </div>
     <script>
         let iframes = document.querySelectorAll("iframe");
