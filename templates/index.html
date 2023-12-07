@@ -9,6 +9,11 @@
         #aridome {
             display: flex;
         }
+
+        iframe {
+            height: 1000px;
+            overflow-y: scroll;
+        }
     </style>
 </head>
 
@@ -35,7 +40,7 @@
             console.log(top)
 
         }
-        iframes[0].onclick = scrollShare(iframes[0], iframes[1]);
+        iframes[0].onscroll = scrollShare(iframes[0], iframes[1]);
     </script>
 </body>
 
