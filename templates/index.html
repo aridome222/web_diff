@@ -35,12 +35,12 @@
 
 <body>
     <div id="aridome">
-        <iframe
+        <iframe id="iframe1"
             src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
             width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
 
 
-        <iframe
+        <iframe id="iframe2"
             src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
             width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
     </div>
@@ -67,25 +67,33 @@
             let iframe1URL = document.getElementById("iframe1").src;
             let iframe2URL = document.getElementById("iframe2").src;
 
-            fetch('http://localhost:5000/diff', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    url1: iframe1URL,
-                    url2: iframe2URL
-                }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Diff image URLs:', data.diff_image_url1, data.diff_image_url2);
-                    // Handle the diff image URLs as needed, for example, display the images
-                    // You can set the src attribute of image tags with data.diff_image_url1 and data.diff_image_url2
+            if (iframe1 && iframe2) {
+                let iframe1URL = iframe1.src;
+                let iframe2URL = iframe2.src;
+
+                fetch('http://localhost:5000/diff', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        url1: iframe1URL,
+                        url2: iframe2URL
+                    }),
                 })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Diff image URLs:', data.diff_image_url1, data.diff_image_url2);
+                        // Handle the diff image URLs as needed, for example, display the images
+                        // You can set the src attribute of image tags with data.diff_image_url1 and data.diff_image_url2
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+            } else {
+                console.error('One or both iframes not found.');
+            }
         }
     </script>
 </body>
