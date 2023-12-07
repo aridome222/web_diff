@@ -5,14 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>複数ウィンドウの例</title>
+    <style>
+        #aridome {
+            display: flex;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="aridome">
+        <iframe src="https://www.example.com" width="50%" height="400" style="float: left;" scrolling="yes"></iframe>
 
-    <iframe src="https://www.example.com" width="50%" height="400" style="float: left;" scrolling="yes"></iframe>
 
+        <iframe src="https://www.example.com" width="50%" height="400" style="float: left;" scrolling="yes"></iframe>
+    </div>
 
-    <iframe src="https://www.example.com" width="50%" height="400" style="float: left;" scrolling="yes"></iframe>
 
 </body>
 
