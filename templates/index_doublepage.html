@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>複数ウィンドウの例</title>
+    <style>
+        #aridome {
+            display: flex;
+        }
+
+        #diffButton {
+            position: fixed;
+            top: 20px;
+            /* 上からの距離 */
+            right: 20px;
+            /* 右からの距離 */
+            padding: 10px;
+            background-color: #007bff;
+            /* ボタンの背景色 */
+            color: #fff;
+            /* テキストの色 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        iframe {
+            height: 6000px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="aridome">
+        <iframe id="iframe1"
+            src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
+
+
+        <iframe id="iframe2"
+            src="https://experienceleague.adobe.com/docs/experience-manager-65/authoring/siteandpage/page-diff.html?lang=ja"
+            width="50%" height="1000" style="float: left;" scrolling="yes"></iframe>
+    </div>
+    <div id="diffButton">
+        <button onclick="sendDiffRequest()">差分検出</button>
+    </div>
+
+    <script>
+        // let iframes = document.querySelectorAll("iframe");
+
+        // function scrollShare(elm1, elm2) {
+        //     let top = elm1.scrollTop;
+        //     elm2.scrollTop = (0, top);
+
+        //     console.log(elm1)
+        //     console.log(elm2)
+        //     console.log(top)
+
+        // }
+        // iframes[0].onscroll = () => scrollShare(iframes[0], iframes[1]);
+        // iframes[1].onscroll = () => scrollShare(iframes[1], iframes[0]);
+
+        function sendDiffRequest() {
+            let iframe1URL = document.getElementById("iframe1").src;
+            let iframe2URL = document.getElementById("iframe2").src;
+
+            if (iframe1 && iframe2) {
+                let iframe1URL = iframe1.src;
+                let iframe2URL = iframe2.src;
+
+                fetch('http://localhost:5000/diff', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        url1: iframe1URL,
+                        url2: iframe2URL
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Diff image URLs:', data.diff_image_url1, data.diff_image_url2);
+                        // Handle the diff image URLs as needed, for example, display the images
+                        // You can set the src attribute of image tags with data.diff_image_url1 and data.diff_image_url2
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+            } else {
+                console.error('One or both iframes not found.');
+            }
+        }
+    </script>
+</body>
+
+</html>
