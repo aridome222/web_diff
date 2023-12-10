@@ -63,6 +63,13 @@
         // iframes[0].onscroll = () => scrollShare(iframes[0], iframes[1]);
         // iframes[1].onscroll = () => scrollShare(iframes[1], iframes[0]);
 
+        // 初期のURLを取得
+        let initialPageURL = "{{ page_url }}";
+
+        // iframeのsrc属性に初期URLを設定
+        document.getElementById("iframe1").src = initialPageURL;
+        document.getElementById("iframe2").src = initialPageURL;
+
         function sendDiffRequest() {
             let iframe1URL = document.getElementById("iframe1").src;
             let iframe2URL = document.getElementById("iframe2").src;
