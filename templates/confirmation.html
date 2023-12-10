@@ -1,3 +1,4 @@
+<!-- confirmation.html -->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -12,14 +13,14 @@
     <p>以下の情報で予約が確定しました：</p>
 
     <ul>
-        <li><strong>お名前：</strong> John Doe</li>
-        <li><strong>電話番号：</strong> 1234567890</li>
-        <li><strong>メールアドレス：</strong> john@example.com</li>
-        <li><strong>ピザの種類：</strong> マルゲリータ</li>
-        <li><strong>ピザのサイズ：</strong> 大サイズ</li>
-        <li><strong>ピザの枚数：</strong> 2枚</li>
-        <li><strong>配達希望時間：</strong> 2023-12-31T18:00</li>
-        <li><strong>特別な要望：</strong> なし</li>
+        <li><strong>お名前：</strong> {{ name }}</li>
+        <li><strong>電話番号：</strong> {{ phone }}</li>
+        <li><strong>メールアドレス：</strong> {{ email }}</li>
+        <li><strong>ピザの種類：</strong> {{ pizza_type }}</li>
+        <li><strong>ピザのサイズ：</strong> {{ pizza_size }}</li>
+        <li><strong>ピザの枚数：</strong> {{ pizza_quantity }}枚</li>
+        <li><strong>配達希望時間：</strong> {{ delivery_time }}</li>
+        <li><strong>特別な要望：</strong> {{ comments }}</li>
     </ul>
 
     <p>予約を受け付けました。ご利用いただきありがとうございます。</p>
