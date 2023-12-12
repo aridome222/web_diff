@@ -105,7 +105,12 @@
 
         document.getElementById('iframe1').contentWindow.document.body.addEventListener('click', function (event) {
             // クリックイベントを取得
-            let data = { eventType: 'click', element: event.target.tagName };
+            let data = {
+                eventType: 'click',
+                element: event.target.tagName,
+                xpath: getXPathForElement(event.target),  // XPathを取得
+                timestamp: new Date().toISOString()  // タイムスタンプを追加
+            };
 
             // サーバにデータを送信
             fetch('http://localhost:5000/log', {
@@ -114,6 +119,19 @@
                 body: JSON.stringify(data)
             });
         });
+
+        // 要素のXPathを取得する関数
+        function getXPathForElement(element) {
+            const idx = (sib, name) => sib
+                ? idx(sib.previousElementSibling, name || sib.localName) + (sib.localName == name)
+                : 1;
+            const segs = elm => !elm || elm.nodeType !== 1
+                ? ['']
+                : elm.id && document.getElementById(elm.id) === elm
+                    ? [`id("${elm.id}")`]
+                    : [...segs(elm.parentNode), `${elm.localName.toLowerCase()}[${idx(elm)}]`];
+            return segs(element).join('/');
+        }
     </script>
 </body>
 
