@@ -230,15 +230,15 @@
             }
         }
 
-        (function () {
-            var oldConsoleLog = console.log;
+        function getConsoleLog() {
+            let oldConsoleLog = console.log;
             console.log = function (message) {
                 // ログをサーバに送信
                 sendLogToServer({ type: 'log', message: message });
                 oldConsoleLog.apply(console, arguments);
             };
 
-            var oldConsoleError = console.error;
+            let oldConsoleError = console.error;
             console.error = function (message) {
                 // エラーメッセージをサーバに送信
                 sendLogToServer({ type: 'error', message: message });
@@ -254,7 +254,7 @@
                     body: JSON.stringify(data)
                 });
             }
-        })();
+        };
     </script>
 </body>
 
