@@ -103,6 +103,7 @@
             }
         }
 
+        // iframe要素を取得
         const iframe1 = document.getElementById('iframe1');
         const iframe2 = document.getElementById('iframe2');
 
@@ -112,18 +113,13 @@
             const iframe1Document = iframe1.contentDocument || iframe1.contentWindow.document;
             const iframe2Document = iframe2.contentDocument || iframe2.contentWindow.document;
 
-            // 以下、クリックイベント、入力イベント、スクロールイベントのリスナーを追加
-            // 例: クリックイベントリスナー
+            // クリックイベントリスナーを追加
             iframe1Document.body.addEventListener('click', function (event) {
-                // クリックイベントを処理
-                console.log('Clicked inside iframe:', event);
-
-                // 例えば、クリックされた要素の詳細情報を取得
                 let clickData = {
                     eventType: 'click',
                     element: event.target.tagName,
-                    xpath: getXPathForElement(event.target),  // XPathを取得
-                    timestamp: new Date().toISOString()  // タイムスタンプを追加
+                    xpath: getXPathForElement(event.target),
+                    timestamp: new Date().toISOString()
                 };
 
                 // サーバにデータを送信
@@ -141,7 +137,7 @@
                 }
             });
 
-            // iframe1で入力イベントが発生した場合、iframe2で同じフィールドに値を設定
+            // 入力イベントリスナーを追加
             iframe1Document.body.addEventListener('input', debounce(function (event) {
                 if (event.target.tagName.toLowerCase() === 'input' || event.target.tagName.toLowerCase() === 'textarea') {
                     let inputData = {
@@ -166,9 +162,9 @@
                         targetElementInIframe2.value = event.target.value;
                     }
                 }
-            }, 1000)); // 例: 1000ミリ秒
+            }, 1000));
 
-            // iframe1のスクロールイベントをiframe2に反映
+            // スクロールイベントリスナーを追加
             iframe1Document.addEventListener('scroll', throttle(function () {
                 let scrollData = {
                     eventType: 'scroll',
@@ -187,7 +183,7 @@
                 // iframe2のスクロール位置を合わせる
                 iframe2Document.documentElement.scrollTop = scrollData.scrollTop;
                 iframe2Document.documentElement.scrollLeft = scrollData.scrollLeft;
-            }, 1000)); // 例: 1秒間隔
+            }, 1000));
         };
 
         // 要素のXPathを取得する関数
