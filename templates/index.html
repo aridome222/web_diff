@@ -27,8 +27,7 @@
         }
 
         iframe {
-            /* height: 6000px; */
-            height: auto;
+            height: 800px;
             overflow-y: scroll;
         }
     </style>
@@ -155,24 +154,23 @@
                 }
             });
 
-            // iframeにスクロールイベントリスナーを追加
-            iframeDocument.addEventListener('scroll', function (event) {
+            const processScrollEvent = function () {
                 let scrollData = {
                     eventType: 'scroll',
                     scrollTop: iframeDocument.documentElement.scrollTop || iframeDocument.body.scrollTop,
                     scrollLeft: iframeDocument.documentElement.scrollLeft || iframeDocument.body.scrollLeft,
                     timestamp: new Date().toISOString()
                 };
-                // スクロールイベントを処理
                 console.log('Scroll event in iframe:', scrollData);
-
-                // サーバにデータを送信
                 fetch('http://localhost:5000/log', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(scrollData)
                 });
-            });
+            };
+
+            // スロットリング関数を適用したスクロールイベントリスナー
+            iframeDocument.addEventListener('scroll', throttle(processScrollEvent, 1000)); // 例: 1秒間隔
         };
 
         // 要素のXPathを取得する関数
@@ -186,6 +184,27 @@
                     ? [`id("${elm.id}")`]
                     : [...segs(elm.parentNode), `${elm.localName.toLowerCase()}[${idx(elm)}]`];
             return segs(element).join('/');
+        }
+
+        function throttle(func, limit) {
+            let lastFunc;
+            let lastRan;
+            return function () {
+                const context = this;
+                const args = arguments;
+                if (!lastRan) {
+                    func.apply(context, args);
+                    lastRan = Date.now();
+                } else {
+                    clearTimeout(lastFunc);
+                    lastFunc = setTimeout(function () {
+                        if ((Date.now() - lastRan) >= limit) {
+                            func.apply(context, args);
+                            lastRan = Date.now();
+                        }
+                    }, limit - (Date.now() - lastRan));
+                }
+            }
         }
     </script>
 </body>
