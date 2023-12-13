@@ -119,8 +119,6 @@
                     eventType: 'click',
                     element: event.target.tagName,
                     xpath: getXPathForElement(event.target),
-                    x: event.clientX,
-                    y: event.clientY,
                     timestamp: new Date().toISOString()
                 };
 
@@ -131,10 +129,11 @@
                     body: JSON.stringify(clickData)
                 });
 
-                // iframe2で同じ座標の要素をクリック
-                const elementAtCoords = iframe2Document.elementFromPoint(clickData.x, clickData.y);
-                if (elementAtCoords) {
-                    elementAtCoords.click();
+                // iframe2に反映
+                const xpath = getXPathForElement(event.target);
+                const targetElementInIframe2 = iframe2Document.evaluate(xpath, iframe2Document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (targetElementInIframe2) {
+                    targetElementInIframe2.click();
                 }
             });
 
@@ -146,8 +145,6 @@
                         element: event.target.tagName,
                         value: event.target.value,
                         xpath: getXPathForElement(event.target),
-                        x: event.target.getBoundingClientRect().left,
-                        y: event.target.getBoundingClientRect().top,
                         timestamp: new Date().toISOString()
                     };
 
@@ -158,10 +155,11 @@
                         body: JSON.stringify(inputData)
                     });
 
-                    // iframe2内で同じ座標の要素を見つけて値を設定
-                    const elementAtCoords = iframe2Document.elementFromPoint(inputData.x, inputData.y);
-                    if (elementAtCoords && (elementAtCoords.tagName.toLowerCase() === 'input' || elementAtCoords.tagName.toLowerCase() === 'textarea')) {
-                        elementAtCoords.value = event.target.value;
+                    // iframe2内で同じフィールドを見つけて値を設定
+                    const xpath = getXPathForElement(event.target);
+                    const targetElementInIframe2 = iframe2Document.evaluate(xpath, iframe2Document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    if (targetElementInIframe2 && (targetElementInIframe2.tagName.toLowerCase() === 'input' || targetElementInIframe2.tagName.toLowerCase() === 'textarea')) {
+                        targetElementInIframe2.value = event.target.value;
                     }
                 }
             }, 1000));
@@ -182,17 +180,9 @@
                     body: JSON.stringify(scrollData)
                 });
 
-                // 最初の要素を基準に座標を取得
-                const referenceElement = iframe1Document.querySelector("h1, p, div"); // 最初の見出し、段落、またはdivを選択
-                if (referenceElement) {
-                    const rect = referenceElement.getBoundingClientRect();
-                    // iframe2内で同じ位置にある要素を見つける
-                    const targetElementInIframe2 = iframe2Document.elementFromPoint(rect.left, rect.top);
-                    if (targetElementInIframe2) {
-                        // スクロール位置を合わせる
-                        targetElementInIframe2.scrollIntoView({ behavior: "smooth" });
-                    }
-                }
+                // iframe2のスクロール位置を合わせる
+                iframe2Document.documentElement.scrollTop = scrollData.scrollTop;
+                iframe2Document.documentElement.scrollLeft = scrollData.scrollLeft;
             }, 1000));
         };
 
