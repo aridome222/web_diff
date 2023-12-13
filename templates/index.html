@@ -103,22 +103,35 @@
             }
         }
 
-        document.getElementById('iframe1').contentWindow.document.body.addEventListener('click', function (event) {
-            // クリックイベントを取得
-            let data = {
-                eventType: 'click',
-                element: event.target.tagName,
-                xpath: getXPathForElement(event.target),  // XPathを取得
-                timestamp: new Date().toISOString()  // タイムスタンプを追加
-            };
+        // iframe要素を取得
+        const iframe = document.getElementById('iframe1');
 
-            // サーバにデータを送信
-            fetch('http://localhost:5000/log', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+        // iframeのロードが完了した後にイベントリスナーを設定
+        iframe.onload = function () {
+            // iframeのドキュメントを取得
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            // iframeのbodyにイベントリスナーを追加
+            iframeDocument.body.addEventListener('click', function (event) {
+                // クリックイベントを処理
+                console.log('Clicked inside iframe:', event);
+
+                // 例えば、クリックされた要素の詳細情報を取得
+                let data = {
+                    eventType: 'click',
+                    element: event.target.tagName,
+                    xpath: getXPathForElement(event.target),  // XPathを取得
+                    timestamp: new Date().toISOString()  // タイムスタンプを追加
+                };
+
+                // サーバにデータを送信
+                fetch('http://localhost:5000/log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
             });
-        });
+        };
 
         // 要素のXPathを取得する関数
         function getXPathForElement(element) {
