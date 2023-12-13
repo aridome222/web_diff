@@ -111,13 +111,13 @@
             // iframeのドキュメントを取得
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-            // iframeのbodyにイベントリスナーを追加
+            // iframeのbodyにクリックイベントリスナーを追加
             iframeDocument.body.addEventListener('click', function (event) {
                 // クリックイベントを処理
                 console.log('Clicked inside iframe:', event);
 
                 // 例えば、クリックされた要素の詳細情報を取得
-                let data = {
+                let clickData = {
                     eventType: 'click',
                     element: event.target.tagName,
                     xpath: getXPathForElement(event.target),  // XPathを取得
@@ -128,7 +128,48 @@
                 fetch('http://localhost:5000/log', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(clickData)
+                });
+            });
+
+            // iframeのbodyに入力イベントリスナーを追加
+            iframeDocument.body.addEventListener('input', function (event) {
+                if (event.target.tagName.toLowerCase() === 'input' || event.target.tagName.toLowerCase() === 'textarea') {
+                    let inputData = {
+                        eventType: 'input',
+                        element: event.target.tagName,
+                        value: event.target.value, // 入力されたデータ
+                        xpath: getXPathForElement(event.target),
+                        timestamp: new Date().toISOString()
+                    };
+                    // 入力イベントを処理
+                    console.log('Input event in iframe:', inputData);
+
+                    // サーバにデータを送信
+                    fetch('http://localhost:5000/log', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(inputData)
+                    });
+                }
+            });
+
+            // iframeにスクロールイベントリスナーを追加
+            iframeDocument.addEventListener('scroll', function (event) {
+                let scrollData = {
+                    eventType: 'scroll',
+                    scrollTop: iframeDocument.documentElement.scrollTop || iframeDocument.body.scrollTop,
+                    scrollLeft: iframeDocument.documentElement.scrollLeft || iframeDocument.body.scrollLeft,
+                    timestamp: new Date().toISOString()
+                };
+                // スクロールイベントを処理
+                console.log('Scroll event in iframe:', scrollData);
+
+                // サーバにデータを送信
+                fetch('http://localhost:5000/log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(scrollData)
                 });
             });
         };
