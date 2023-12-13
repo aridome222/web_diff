@@ -229,6 +229,32 @@
                 }
             }
         }
+
+        (function () {
+            var oldConsoleLog = console.log;
+            console.log = function (message) {
+                // ログをサーバに送信
+                sendLogToServer({ type: 'log', message: message });
+                oldConsoleLog.apply(console, arguments);
+            };
+
+            var oldConsoleError = console.error;
+            console.error = function (message) {
+                // エラーメッセージをサーバに送信
+                sendLogToServer({ type: 'error', message: message });
+                oldConsoleError.apply(console, arguments);
+            };
+
+            function sendLogToServer(data) {
+                fetch('http://localhost:5000/console', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+            }
+        })();
     </script>
 </body>
 
