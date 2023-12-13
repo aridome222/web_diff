@@ -111,7 +111,7 @@
             // iframeのドキュメントを取得
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-            // iframeのbodyにクリックイベントリスナーを追加
+            // クリックイベント取得
             iframeDocument.body.addEventListener('click', function (event) {
                 // クリックイベントを処理
                 console.log('Clicked inside iframe:', event);
@@ -132,8 +132,8 @@
                 });
             });
 
-            // iframeのbodyに入力イベントリスナーを追加
-            iframeDocument.body.addEventListener('input', function (event) {
+            // 入力イベント取得
+            const processInputEvent = function (event) {
                 if (event.target.tagName.toLowerCase() === 'input' || event.target.tagName.toLowerCase() === 'textarea') {
                     let inputData = {
                         eventType: 'input',
@@ -142,18 +142,19 @@
                         xpath: getXPathForElement(event.target),
                         timestamp: new Date().toISOString()
                     };
-                    // 入力イベントを処理
                     console.log('Input event in iframe:', inputData);
-
-                    // サーバにデータを送信
                     fetch('http://localhost:5000/log', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(inputData)
                     });
                 }
-            });
+            };
 
+            // デバウンスを適用
+            iframeDocument.body.addEventListener('input', debounce(processInputEvent, 1000)); // 例: 1000ミリ秒
+
+            // スクロールイベント取得
             const processScrollEvent = function () {
                 let scrollData = {
                     eventType: 'scroll',
@@ -184,6 +185,16 @@
                     ? [`id("${elm.id}")`]
                     : [...segs(elm.parentNode), `${elm.localName.toLowerCase()}[${idx(elm)}]`];
             return segs(element).join('/');
+        }
+
+        function debounce(func, delay) {
+            let inDebounce;
+            return function () {
+                const context = this;
+                const args = arguments;
+                clearTimeout(inDebounce);
+                inDebounce = setTimeout(() => func.apply(context, args), delay);
+            }
         }
 
         function throttle(func, limit) {
