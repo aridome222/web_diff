@@ -106,48 +106,80 @@
         // iframe要素を取得
         const iframe = document.getElementById('iframe1');
 
-        // iframeのロードが完了した後にイベントリスナーを設定
+
         iframe.onload = function () {
-            // iframeのドキュメントを取得
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const iframe2Document = document.getElementById('iframe2').contentDocument || document.getElementById('iframe2').contentWindow.document;
+            // iframe要素を取得
+            const iframe1 = document.getElementById('iframe1');
+            const iframe2 = document.getElementById('iframe2');
 
-            // クリックイベント取得
-            iframeDocument.body.addEventListener('click', function (event) {
-                // クリックイベントを処理
-                console.log('Clicked inside iframe:', event);
+            // iframeのロードが完了した後にイベントリスナーを設定
+            iframe1.onload = function () {
+                // iframeのドキュメントを取得
+                const iframe1Document = iframe1.contentDocument || iframe1.contentWindow.document;
+                const iframe2Document = iframe2.contentDocument || iframe2.contentWindow.document;
 
-                // 例えば、クリックされた要素の詳細情報を取得
-                let clickData = {
-                    eventType: 'click',
-                    element: event.target.tagName,
-                    xpath: getXPathForElement(event.target),  // XPathを取得
-                    timestamp: new Date().toISOString()  // タイムスタンプを追加
-                };
+                // 以下、クリックイベント、入力イベント、スクロールイベントのリスナーを追加
+                // 例: クリックイベントリスナー
+                iframe1Document.body.addEventListener('click', function (event) {
+                    // クリックイベントを処理
+                    console.log('Clicked inside iframe:', event);
 
-                // サーバにデータを送信
-                fetch('http://localhost:5000/log', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(clickData)
+                    // 例えば、クリックされた要素の詳細情報を取得
+                    let clickData = {
+                        eventType: 'click',
+                        element: event.target.tagName,
+                        xpath: getXPathForElement(event.target),  // XPathを取得
+                        timestamp: new Date().toISOString()  // タイムスタンプを追加
+                    };
+
+                    // サーバにデータを送信
+                    fetch('http://localhost:5000/log', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(clickData)
+                    });
+
+                    // iframe2に反映
+                    const xpath = getXPathForElement(event.target);
+                    const targetElementInIframe2 = iframe2Document.evaluate(xpath, iframe2Document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    if (targetElementInIframe2) {
+                        targetElementInIframe2.click();
+                    }
                 });
 
-                // iframe1でのクリック操作をiframe2に反映
-                const xpath = getXPathForElement(event.target);
-                const targetElementInIframe2 = iframe2Document.evaluate(xpath, iframe2Document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                if (targetElementInIframe2) {
-                    targetElementInIframe2.click();
-                }
-            });
+                // iframe1で入力イベントが発生した場合、iframe2で同じフィールドに値を設定
+                iframe1Document.body.addEventListener('input', debounce(function (event) {
+                    if (event.target.tagName.toLowerCase() === 'input' || event.target.tagName.toLowerCase() === 'textarea') {
+                        let inputData = {
+                            eventType: 'input',
+                            element: event.target.tagName,
+                            value: event.target.value,
+                            xpath: getXPathForElement(event.target),
+                            timestamp: new Date().toISOString()
+                        };
 
-            // iframe1で入力イベントが発生した場合、iframe2で同じフィールドに値を設定
-            iframe1Document.body.addEventListener('input', debounce(function (event) {
-                if (event.target.tagName.toLowerCase() === 'input' || event.target.tagName.toLowerCase() === 'textarea') {
-                    let inputData = {
-                        eventType: 'input',
-                        element: event.target.tagName,
-                        value: event.target.value,
-                        xpath: getXPathForElement(event.target),
+                        // サーバにデータを送信
+                        fetch('http://localhost:5000/log', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(inputData)
+                        });
+
+                        // iframe2内で同じフィールドを見つけて値を設定
+                        const xpath = getXPathForElement(event.target);
+                        const targetElementInIframe2 = iframe2Document.evaluate(xpath, iframe2Document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                        if (targetElementInIframe2 && (targetElementInIframe2.tagName.toLowerCase() === 'input' || targetElementInIframe2.tagName.toLowerCase() === 'textarea')) {
+                            targetElementInIframe2.value = event.target.value;
+                        }
+                    }
+                }, 1000)); // 例: 1000ミリ秒
+
+                // iframe1のスクロールイベントをiframe2に反映
+                iframe1Document.addEventListener('scroll', throttle(function () {
+                    let scrollData = {
+                        eventType: 'scroll',
+                        scrollTop: iframe1Document.documentElement.scrollTop || iframe1Document.body.scrollTop,
+                        scrollLeft: iframe1Document.documentElement.scrollLeft || iframe1Document.body.scrollLeft,
                         timestamp: new Date().toISOString()
                     };
 
@@ -155,39 +187,15 @@
                     fetch('http://localhost:5000/log', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(inputData)
+                        body: JSON.stringify(scrollData)
                     });
 
-                    // iframe2内で同じフィールドを見つけて値を設定
-                    const xpath = getXPathForElement(event.target);
-                    const targetElementInIframe2 = iframe2Document.evaluate(xpath, iframe2Document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                    if (targetElementInIframe2 && (targetElementInIframe2.tagName.toLowerCase() === 'input' || targetElementInIframe2.tagName.toLowerCase() === 'textarea')) {
-                        targetElementInIframe2.value = event.target.value;
-                    }
-                }
-            }, 1000)); // 例: 1000ミリ秒
-
-            // iframe1のスクロールイベントをiframe2に反映
-            iframe1Document.addEventListener('scroll', throttle(function () {
-                let scrollData = {
-                    eventType: 'scroll',
-                    scrollTop: iframe1Document.documentElement.scrollTop || iframe1Document.body.scrollTop,
-                    scrollLeft: iframe1Document.documentElement.scrollLeft || iframe1Document.body.scrollLeft,
-                    timestamp: new Date().toISOString()
-                };
-
-                // サーバにデータを送信
-                fetch('http://localhost:5000/log', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(scrollData)
-                });
-
-                // iframe2のスクロール位置を合わせる
-                iframe2Document.documentElement.scrollTop = scrollData.scrollTop;
-                iframe2Document.documentElement.scrollLeft = scrollData.scrollLeft;
-            }, 1000)); // 例: 1秒間隔
-        };
+                    // iframe2のスクロール位置を合わせる
+                    iframe2Document.documentElement.scrollTop = scrollData.scrollTop;
+                    iframe2Document.documentElement.scrollLeft = scrollData.scrollLeft;
+                }, 1000)); // 例: 1秒間隔
+            };
+        }
 
         // 要素のXPathを取得する関数
         function getXPathForElement(element) {
