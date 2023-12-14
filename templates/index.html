@@ -1,16 +1,24 @@
+<!-- piza-form.html -->
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
-    <title>電話番号送信フォーム</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログインフォーム</title>
 </head>
 
 <body>
-    <h2>電話番号を入力してください</h2>
-    <form action="/submit-phone-number" method="post">
-        <label for="phone">電話番号:</label>
-        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
-        <button type="submit">送信</button>
+    <h1>ログインフォーム</h1>
+    <form action="/confirmation" method="post">
+        <label for="name">お名前：</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="phone">電話番号：</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required><br><br>
+
+        <label for="email">メールアドレス：</label>
+        <input type="email" id="email" name="email" required><br><br>
     </form>
 </body>
 

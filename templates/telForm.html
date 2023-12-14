@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>電話番号送信フォーム</title>
+</head>
+
+<body>
+    <h2>電話番号を入力してください</h2>
+    <form action="/submit-phone-number" method="post">
+        <label for="phone">電話番号:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+        <button type="submit">送信</button>
+    </form>
+</body>
+
+</html>
