@@ -9,7 +9,12 @@
 </head>
 
 <body>
-    <h1>ログインフォーム</h1>
+    <h1>ログインフォーム</h1>]
+    <form id="myForm">
+        <input type="text" id="myInput" required>
+        <span id="error-message" style="color: red;"></span>
+        <button type="submit">送信</button>
+    </form>
     <form action="/confirmation" method="post">
         <label for="name">お名前：</label>
         <input type="text" id="name" name="name" autocomplete="off" required><br><br>
@@ -22,6 +27,16 @@
 
         <input type="submit" value="ログイン">
     </form>
+    <script>
+        document.getElementById('myInput').addEventListener('input', function (e) {
+            var errorMessage = document.getElementById('error-message');
+            if (e.target.value === '異常値') { // ここに具体的なバリデーション条件を設定
+                errorMessage.textContent = 'エラー: 異常値が入力されました。';
+            } else {
+                errorMessage.textContent = '';
+            }
+        });
+    </script>
 </body>
 
 </html>
