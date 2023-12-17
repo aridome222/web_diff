@@ -49,13 +49,13 @@
         });
 
         document.getElementById('email').addEventListener('input', function (e) {
-            var errorMessage = document.getElementById('error-message-email');
-            // 正規表現を使用してメールアドレスの形式を検証
-            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            var errorMessageEmail = document.getElementById('error-message-email');
+            // トップレベルドメインを含むメールアドレスの正規表現
+            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!emailRegex.test(e.target.value)) {
-                errorMessage.textContent = 'エラー: 不正なメールアドレス形式です。';
+                errorMessageEmail.textContent = 'エラー: 不正なメールアドレス形式です。';
             } else {
-                errorMessage.textContent = '';
+                errorMessageEmail.textContent = '';
             }
         });
     </script>
