@@ -6,15 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Single Content Web Page</title>
     <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f0f0f0;
         }
 
@@ -27,15 +22,13 @@
 
         .container {
             width: 100%;
-            min-height: calc(100% - 120px);
-            /* ヘッダーとフッターの高さを引く */
             margin: 20px auto;
             overflow: hidden;
         }
 
         .main-content {
-            height: auto;
-            /* ここをautoに変更 */
+            /* 固定の高さを設定 */
+            height: 700px;
             background-color: #fff;
             padding: 10px;
         }
@@ -46,10 +39,6 @@
             text-align: center;
             padding: 10px 0;
             clear: both;
-            position: relative;
-            /* フッターを画面の下部に固定 */
-            bottom: 0;
-            width: 100%;
         }
 
         a {
