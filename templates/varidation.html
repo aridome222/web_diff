@@ -1,0 +1,75 @@
+<!-- Login-form.html -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログインフォーム</title>
+    <style>
+        .form-group {
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ログインフォーム</h1>
+    <form action="/confirmation" method="post">
+        <div class="form-group">
+            <label for="name">お名前：</label>
+            <input type="text" id="name" name="name" autocomplete="off" required>
+            <br>
+            <span id="error-message-name" style="color: red;"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">電話番号：</label>
+            <input type="tel" id="phone" name="phone" autocomplete="off" pattern="[0-9]{10}" required>
+            <br>
+            <span id="error-message-phone" style="color: red;"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="email">メールアドレス：</label>
+            <input type="email" id="email" name="email" autocomplete="off" required>
+            <br>
+            <span id="error-message-email" style="color: red;"></span>
+        </div>
+
+        <input type="submit" value="ログイン">
+    </form>
+    <script>
+        document.getElementById('name').addEventListener('input', function (e) {
+            var errorMessageName = document.getElementById('error-message-name');
+            if (e.target.value.trim() === '') {
+                errorMessageName.textContent = 'エラー: お名前を入力してください。';
+            } else {
+                errorMessageName.textContent = '';
+            }
+        });
+
+        document.getElementById('phone').addEventListener('input', function (e) {
+            var errorMessagePhone = document.getElementById('error-message-phone');
+            var phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(e.target.value)) {
+                errorMessagePhone.textContent = 'エラー: 正しい電話番号（10桁の数字）を入力してください。';
+            } else {
+                errorMessagePhone.textContent = '';
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', function (e) {
+            var errorMessageEmail = document.getElementById('error-message-email');
+            // トップレベルドメインを含むメールアドレスの正規表現
+            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(e.target.value)) {
+                errorMessageEmail.textContent = 'エラー: 不正なメールアドレス形式です。';
+            } else {
+                errorMessageEmail.textContent = '';
+            }
+        });
+    </script>
+</body>
+
+</html>
