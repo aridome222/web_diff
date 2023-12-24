@@ -55,6 +55,8 @@
 
         .uniqueClass {
             position: relative;
+            border: 3px solid red;
+            /* 枠を親要素に適用 */
         }
 
         .uniqueClass::after {
@@ -62,13 +64,9 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
             color: red;
             font-size: 12px;
-            /* この値は例です。必要に応じて調整してください。 */
-            border: 3px solid red;
-            /* 背景を透明に設定 */
+            background: transparent;
             z-index: 1;
         }
     </style>
