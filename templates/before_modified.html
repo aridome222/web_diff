@@ -52,12 +52,23 @@
             color: #486b6b;
             /* ホバー時の色 */
         }
+
+        .uniqueClass::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid red !important;
+            z-index: -1;
+        }
     </style>
 </head>
 
 <body>
     <header>
-        <h1 style="background-color: red !important;">アリエッティの日常</h1>
+        <h1 class="uniqueClass">アリエッティの日常</h1>
     </header>
     <div class="container">
         <div class="main-content">
