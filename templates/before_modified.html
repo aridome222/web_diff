@@ -55,17 +55,19 @@
 
         .uniqueClass {
             position: relative;
-            border: 3px solid red;
-            /* 枠を親要素に適用 */
+            /* 枠は親要素にそのまま残す */
         }
 
         .uniqueClass::after {
             content: '変更箇所です。';
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 10px;
+            /* テキストの位置を微調整 */
+            left: 10px;
+            /* テキストの位置を微調整 */
             color: red;
             font-size: 12px;
+            /* フォントサイズを調整 */
             background: transparent;
             z-index: 1;
         }
