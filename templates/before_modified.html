@@ -55,22 +55,25 @@
 
         .uniqueClass {
             position: relative;
-            /* その他必要に応じたスタイリング */
+            /* その他のスタイリングは必要に応じて */
         }
 
         .uniqueClass::after {
             content: '変更箇所です。';
             position: absolute;
             top: 0;
+            /* 上端からの距離 */
             left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 5px;
-            /* テキストと枠線の間の余白 */
+            /* 左端からの距離 */
             color: red;
             font-size: 12px;
+            /* フォントサイズの設定 */
             border: 3px solid red;
             z-index: 1;
+            width: auto;
+            /* 幅を自動調整 */
+            height: auto;
+            /* 高さを自動調整 */
         }
     </style>
 </head>
