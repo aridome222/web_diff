@@ -56,8 +56,6 @@
         .uniqueClass {
             position: relative;
             /* 枠は親要素にそのまま残す */
-            border: 3px solid red;
-            /* 枠を親要素に適用 */
         }
 
         .uniqueClass::after {
@@ -71,7 +69,10 @@
             font-size: 12px;
             /* フォントサイズを調整 */
             background: transparent;
-            z-index: 1;
+            z-index: 10;
+            border: 3px solid red;
+            /* 枠を親要素に適用 */
+
         }
     </style>
 </head>
