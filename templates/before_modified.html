@@ -55,25 +55,37 @@
 
         .uniqueClass {
             position: relative;
-            /* その他のスタイリングは必要に応じて */
+            /* 親要素のその他のスタイリング */
+        }
+
+        .uniqueClass::before {
+            content: '';
+            /* 枠のための内容は空 */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid red;
+            /* 枠線のスタイル */
+            z-index: 1;
+            /* 必要に応じて調整 */
         }
 
         .uniqueClass::after {
             content: '変更箇所です。';
+            /* 表示したいテキスト */
             position: absolute;
             top: 0;
-            /* 上端からの距離 */
+            /* 左上隅に配置 */
             left: 0;
-            /* 左端からの距離 */
+            /* 左上隅に配置 */
             color: red;
+            /* テキストの色 */
             font-size: 12px;
-            /* フォントサイズの設定 */
-            border: 3px solid red;
-            z-index: 1;
-            width: auto;
-            /* 幅を自動調整 */
-            height: auto;
-            /* 高さを自動調整 */
+            /* フォントサイズの調整 */
+            z-index: 2;
+            /* 枠線の上に表示 */
         }
     </style>
 </head>
