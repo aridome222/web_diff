@@ -86,7 +86,7 @@
             /* 親要素のその他のスタイリング */
         }
 
-        .uniqueClass::after {
+        .uniqueClass::before {
             content: '';
             /* 枠のための内容は空 */
             position: absolute;
@@ -118,9 +118,9 @@
             position: relative;
         }
 
-        .image-container::after,
-        .image-container img::after,
-        .css-image::after {
+        .image-container::before,
+        .image-container img::before,
+        .css-image::before {
             content: '';
             position: absolute;
             top: 0;
