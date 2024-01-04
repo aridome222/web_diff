@@ -55,7 +55,7 @@
 
         .uniqueClass {
             position: relative;
-            padding: 2px;
+            padding: 1px;
             /* ここで余白を追加 */
             /* 親要素のその他のスタイリング */
         }
@@ -63,13 +63,13 @@
         .uniqueClass::before {
             content: '';
             position: absolute;
-            top: -2px;
+            top: -1px;
             /* paddingの分だけ外側に移動 */
             left: 0px;
             /* paddingの分だけ外側に移動 */
             right: 0px;
             /* paddingの分だけ外側に移動 */
-            bottom: -2px;
+            bottom: -1px;
             /* paddingの分だけ外側に移動 */
             border: 3px solid rgb(255, 0, 0);
             z-index: 1;
