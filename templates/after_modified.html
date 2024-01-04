@@ -83,27 +83,30 @@
 
         .uniqueClass {
             position: relative;
-            padding: 1px;
-            box-sizing: border-box;
-            /* このプロパティを追加 */
+            /* 親要素のその他のスタイリング */
         }
 
         .uniqueClass::before {
             content: '';
+            /* 枠のための内容は空 */
             position: absolute;
-            top: -4px;
+            top: 0;
             left: 0;
             right: 0;
-            bottom: -4px;
+            bottom: 0;
             border: 3px solid rgb(0, 255, 0);
+            /* 枠線のスタイル */
             z-index: 1;
+            /* 必要に応じて調整 */
         }
 
         .uniqueClass::after {
             content: '';
             position: absolute;
-            top: 1px;
+            top: 5px;
+            /* 上からの距離を微調整 */
             left: 5px;
+            /* 左からの距離を微調整 */
             color: rgb(0, 255, 0);
             font-size: 12px;
             z-index: 1;
@@ -113,9 +116,6 @@
         .image-container img,
         .css-image {
             position: relative;
-            padding: 1px;
-            box-sizing: border-box;
-            /* このプロパティを追加 */
         }
 
         .image-container::before,
@@ -123,16 +123,11 @@
         .css-image::before {
             content: '';
             position: absolute;
-            top: -4px;
-            /* paddingの分だけ外側に移動 */
-            left: 0px;
-            /* paddingの分だけ外側に移動 */
-            right: 0px;
-            /* paddingの分だけ外側に移動 */
-            bottom: -4px;
-            /* paddingの分だけ外側に移動 */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             border: 3px solid rgb(0, 255, 0);
-            /* 緑色の枠線 */
             z-index: 1;
         }
 
@@ -141,14 +136,10 @@
         .css-image::after {
             content: '';
             position: absolute;
-            top: 1px;
-            /* 上部からの距離 */
+            top: 5px;
             left: 5px;
-            /* 左側からの距離 */
             color: rgb(0, 255, 0);
-            /* 文字の色 */
             font-size: 12px;
-            /* 文字のサイズ */
             z-index: 1;
         }
     </style>
