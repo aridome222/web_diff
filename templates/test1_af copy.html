@@ -6,16 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Single Content Web Page</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
 
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .container {
+            height: 300px auto;
+            width: 100%;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+        .main-content {
+            height: 460px;
+            background-color: #fff;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .main-content img {
+            width: 100%;
+            height: auto;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            clear: both;
+        }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Single Content Web Page</h1>
+        <h1>Single Content Web Page with layout bug</h1>
     </header>
     <div class="container">
         <div class="main-content">
+            <img src="https://via.placeholder.com/1200x260" alt="Placeholder Image">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                 ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
